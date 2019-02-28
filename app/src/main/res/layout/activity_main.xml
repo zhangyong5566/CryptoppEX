@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zhang.cryptoppex.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_base64"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Base64"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_md5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MD5"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_aes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AES"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_hex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HEX"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_rsa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RSA"
+            android:textSize="10sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/rg_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="文本"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件"
+            android:textSize="10sp" />
+    </RadioGroup>
+
+    <EditText
+
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_file"
+        android:hint="请输入加密内容" />
+
+    <Button
+        android:id="@+id/bt_encry"
+        android:layout_width="55dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/et_input"
+        android:layout_toLeftOf="@id/bt_decry"
+        android:text="加密"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/bt_decry"
+        android:layout_width="55dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/et_input"
+        android:text="解密"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/bt_encry" />
+
+</RelativeLayout>
