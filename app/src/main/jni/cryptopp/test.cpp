@@ -269,7 +269,7 @@ NAMESPACE_BEGIN(CryptoPP)
                 * 私钥解密
                 */
         extern "C"
-        JNIEXPORT jstring
+        JNIEXPORT jbyteArray
         JNICALL
         ZHANGFUNC(CryptoppUtli_decryptByPrivateKey)(
                 JNIEnv *env,
@@ -283,11 +283,13 @@ NAMESPACE_BEGIN(CryptoPP)
             std::string decrypted = RSADecrypt((const unsigned char *) strOut.c_str(), npriLen,
                                                mdata);
 
+            int jlen = strlen(decrypted.c_str());
 
-            jstring result = ctojstring(env, decrypted.c_str());
+            jbyteArray jbuff = env->NewByteArray(jlen);
+            env->SetByteArrayRegion(jbuff, 0, jlen, (const jbyte *) decrypted.c_str());
             env->ReleaseStringUTFChars(data, mdata);//释放资源
             env->ReleaseStringUTFChars(privateKey, pri);//释放资源
-            return result;
+            return jbuff;
 
 
         }
@@ -360,7 +362,7 @@ NAMESPACE_BEGIN(CryptoPP)
          * aes解密
          */
         extern "C"
-        JNIEXPORT jstring
+        JNIEXPORT jbyteArray
         JNICALL
         ZHANGFUNC(CryptoppUtli_decryptByAES)(
                 JNIEnv *env,
@@ -373,11 +375,19 @@ NAMESPACE_BEGIN(CryptoPP)
             int nDatalen = aes_getsize(len);
             char *pOut_str = new char[nDatalen];
             aes_decrypt(mkey, (char *) strOut.c_str(), nDatalen, pOut_str, nDatalen);
+
+
+
+
             LOGE("aesKey： %s", mkey);
             LOGE("解密后： %s", pOut_str);
+            int jlen = strlen(pOut_str);
+
+            jbyteArray jbuff = env->NewByteArray(jlen);
+            env->SetByteArrayRegion(jbuff, 0, jlen, (const jbyte *) pOut_str);
             env->ReleaseStringUTFChars(data, datas);//释放资源
             env->ReleaseStringUTFChars(key, mkey);//释放资源
-            return env->NewStringUTF(pOut_str);
+            return jbuff;
 //            jstring result = ctojstring(env, pOut_str);
 //            return result;
         }
@@ -590,6 +600,14 @@ NAMESPACE_BEGIN(CryptoPP)
                 }
                 if (pTempBuf) {
                     delete[] pTempBuf;
+                }
+                if (nSize == 0) {       //解密失败
+                    fclose(read_fp);
+                    fclose(write_fp);
+                    env->ReleaseStringUTFChars(filePath, filename_char);//释放资源
+                    env->ReleaseStringUTFChars(decryptFilePath, decrypt_fp);//释放资源
+                    env->ReleaseStringUTFChars(key, mkey);//释放资源
+                    return -1;
                 }
             }
 

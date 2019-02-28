@@ -35,13 +35,13 @@ public class CryptoppUtli {
 
     public static native String encryptByPublicKey(String data, String publicKey, String seed);
 
-    public static native String decryptByPrivateKey(String data, String privateKey);
+    public static native byte[] decryptByPrivateKey(String data, String privateKey);
 
     public static native HashMap<String, String> genRSAKeyPair();
 
     public static native String encryptByAES(String data, String key);
 
-    public static native String decryptByAES(String data, String key);
+    public static native byte[] decryptByAES(String data, String key);
 
     public static native int encryptFileByAES(String filePath,String encryptPath ,String key);
 

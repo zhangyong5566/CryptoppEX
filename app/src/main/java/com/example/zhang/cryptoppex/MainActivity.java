@@ -216,9 +216,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     int status = CryptoppUtli.decryptFileByAES(getSDPath() + "/" + "test_encrypt.mp4", getSDPath() + "/" + "test_decrypt.mp4", mAesKey);
                     Toast.makeText(MainActivity.this, "文件解密状态：" + status, Toast.LENGTH_SHORT).show();
                 } else {
-                    String decryptByAES = CryptoppUtli.decryptByAES(enData, mAesKey);
-                    Log.i("Oking5", "AES解密后：" + decryptByAES);
-                    mTv.setText(decryptByAES);
+
+                    byte[] decryptByAES = CryptoppUtli.decryptByAES(enData, mAesKey);
+                    String s = new String(decryptByAES);
+                    Log.i("Oking5", "AES解密后：" + s);
+                    mTv.setText(s);
+
+
                 }
 
 
@@ -226,7 +230,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case 4:
                 Log.i("Oking", "加密内容：" + enData);
                 Log.i("Oking", "私钥：" + mPriKey);
-                mCry = CryptoppUtli.decryptByPrivateKey(enData, mPriKey);
+                byte[] decryptByPrivateKey = CryptoppUtli.decryptByPrivateKey(enData, mPriKey);
+                mCry = new String(decryptByPrivateKey);
 
                 mTv.setText(mCry);
                 break;
@@ -250,8 +255,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case 3:
                 if (isFile) {            //aes文件加密
                     int status = CryptoppUtli.encryptFileByAES(getSDPath() + "/" + "test.mp4", getSDPath() + "/" + "test_encrypt.mp4", mAesKey);
-                   String path =getSDPath() + "/" + "test_encrypt.mp4";
-                    Log.i("Oking5","加密后文件大小："+new File(path).length());
+                    String path = getSDPath() + "/" + "test_encrypt.mp4";
+                    Log.i("Oking5", "加密后文件大小：" + new File(path).length());
                     Toast.makeText(MainActivity.this, "文件加密状态：" + status, Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i("Oking5", "加密内容：" + trim);
