@@ -98,17 +98,16 @@ NAMESPACE_BEGIN(CryptoPP)
             std::string strPrivKey;
             strPrivKey.resize(nprivKeyLen);
             memcpy(&strPrivKey[0], pszPrivKey, nprivKeyLen);
-
-            StringSource ss(strPrivKey, true);
-
-            RSA::PrivateKey privKey;
-            privKey.Load(ss);
-
-            RSAES_OAEP_SHA_Decryptor priv(privKey);
-
             std::string result;
-            StringSource(ciphertext, true, new HexDecoder(
-                    new PK_DecryptorFilter(GlobalRNG(), priv, new StringSink(result))));
+            try {
+                StringSource ss(strPrivKey, true);
+                RSA::PrivateKey privKey;
+                privKey.Load(ss);
+                RSAES_OAEP_SHA_Decryptor priv(privKey);
+                StringSource(ciphertext, true, new HexDecoder(new PK_DecryptorFilter(GlobalRNG(), priv, new StringSink(result))));
+            } catch (const Exception &e) {
+                return "";
+            }
 
             return result;
         }
@@ -282,6 +281,7 @@ NAMESPACE_BEGIN(CryptoPP)
             int npriLen = strOut.length();
             std::string decrypted = RSADecrypt((const unsigned char *) strOut.c_str(), npriLen,
                                                mdata);
+
 
             int jlen = strlen(decrypted.c_str());
 
